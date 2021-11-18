@@ -1,0 +1,34 @@
+version: '3'
+
+networks:
+  qt-network:
+    external: true
+
+services:
+  mysql-server:
+    image: mysql:8.0.23
+    container_name: mysql-server
+    ports:
+      - "13306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 11111111
+      MYSQL_DATABASE: qt
+    healthcheck:
+      test: [ "CMD", "mysql", "-h", "localhost", "-P", "3306", "-u", "root", "--password=11111111", "-e", "select 1", "qt" ]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+    networks:
+      - qt-network
+
+  redis-server:
+    image: redis:6.0.5
+    container_name: redis-server
+    ports:
+      - "16379:6379"
+    volumes:
+      - ./redis:/var/lib/redis
+    networks:
+      - qt-network
