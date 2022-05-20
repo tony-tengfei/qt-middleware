@@ -9,11 +9,11 @@ services:
     image: mysql:8.0.23
     container_name: mysql-server
     ports:
-      - "13306:3306"
+      - "3306:3306"
     volumes:
       - ./mysql:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: 11111111
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: qt
     healthcheck:
       test: [ "CMD", "mysql", "-h", "localhost", "-P", "3306", "-u", "root", "--password=11111111", "-e", "select 1", "qt" ]
@@ -27,7 +27,7 @@ services:
     image: redis:6.0.5
     container_name: redis-server
     ports:
-      - "16379:6379"
+      - "6379:6379"
     volumes:
       - ./redis:/var/lib/redis
     networks:
